@@ -1,5 +1,7 @@
 package com.barca.ecommerce.controllers;
 
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -33,11 +35,10 @@ public class ProductController {
   }
 
   @GetMapping
-  public Page<ProductDto> getProducts(@RequestParam(defaultValue = "") String category, Pageable pageable) {
-    if (category.isBlank()) {
-      return productService.getProducts(pageable);
-    }
-    return productService.getProductsByCategory(category, pageable);
+  public Page<ProductDto> getProducts(@RequestParam(required = false) Optional<String> category, Pageable pageable) {
+
+    category.ifPresent(cat -> productService.getProductsByCategory(cat, pageable));
+    return productService.getProducts(pageable);
   }
 
   // TODO: only admins should have access
