@@ -19,33 +19,33 @@ import lombok.Value;
 public class User { // final access will cause performance loss
 
   @Id
-  private final String id;
+  String id;
 
   @Field("first_name")
   @Size(min = 1, max = 50)
   @NotNull
-  private final String firstName;
+  String firstName;
 
   @Field("last_name")
   @NotNull
   @Size(min = 1, max = 50)
-  private final String lastName;
+  String lastName;
 
   @NotNull
-  final Address address;
+  Address address;
 
   @Indexed(unique = true)
   @NotNull
   @Size(min = 6, max = 50)
   @Email
-  private final String email;
+  String email;
 
   @NotNull
   @Size(min = 8, max = 256)
-  private final String password;
+  String password;
 
   @NotNull
-  private final Set<String> authorities;
+  Set<String> authorities;
 
   private User( // private access will cause performance loss
       String id,

@@ -36,7 +36,6 @@ public class ProductController {
 
   @GetMapping
   public Page<ProductDto> getProducts(@RequestParam(required = false) Optional<String> category, Pageable pageable) {
-
     category.ifPresent(cat -> productService.getProductsByCategory(cat, pageable));
     return productService.getProducts(pageable);
   }
