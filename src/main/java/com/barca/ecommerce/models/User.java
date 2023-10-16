@@ -1,6 +1,6 @@
 package com.barca.ecommerce.models;
 
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.data.annotation.Id;
@@ -44,8 +44,14 @@ public class User { // final access will cause performance loss
   @Size(min = 8, max = 256)
   String password;
 
+  Set<OrderItem> cart;
+
+  int cartSize;
+
   @NotNull
   Set<String> authorities;
+
+  // TODO: refactor to reduce parameter size
 
   private User( // private access will cause performance loss
       String id,
@@ -54,6 +60,8 @@ public class User { // final access will cause performance loss
       Address address,
       String email,
       String password,
+      Set<OrderItem> cart,
+      int cartSize,
       Set<String> authorities) {
 
     this.id = id;
@@ -62,7 +70,9 @@ public class User { // final access will cause performance loss
     this.address = address;
     this.email = email.toLowerCase();
     this.password = password;
-    this.authorities = authorities;
+    this.cart = new HashSet<>();
+    this.cartSize = cartSize;
+    this.authorities = new HashSet<>();
   }
 
   @Builder
@@ -80,6 +90,8 @@ public class User { // final access will cause performance loss
         address,
         email,
         password,
-        Collections.emptySet());
+        null,
+        0,
+        null);
   }
 }

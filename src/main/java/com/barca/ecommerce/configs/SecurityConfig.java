@@ -41,11 +41,26 @@ public class SecurityConfig {
   private final RsaKeysProperties keys;
 
   @Bean
-  public SecurityFilterChain taskFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain productFilterChain(HttpSecurity http) throws Exception {
     http
         .securityMatcher("/api/products/**")
-        .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET).permitAll())
-        .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.POST).hasAuthority("admin"))
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers(HttpMethod.GET).permitAll()
+            .requestMatchers(HttpMethod.POST).hasAnyAuthority("admin"))
+        .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
+        .csrf(AbstractHttpConfigurer::disable)
+        .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+    return http.build();
+  }
+
+  @Bean
+  public SecurityFilterChain cartFilterChain(HttpSecurity http) throws Exception {
+
+    http
+        .securityMatcher("/api/cart/**")
+        .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET).authenticated())
+        .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.PATCH).authenticated())
         .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
         .csrf(AbstractHttpConfigurer::disable)
         .sessionManagement(management -> management.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

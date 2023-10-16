@@ -40,7 +40,6 @@ public class ProductController {
     return productService.getProducts(pageable);
   }
 
-  // TODO: only admins should have access
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
   public void createProduct(@RequestBody @Valid ProductCreationDto dto) {

@@ -9,11 +9,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration("authSecurityConfig")
-public class AuthSecurityConfig {
+@Configuration("tokenSecurityConfig")
+public class TokenSecurityConfig {
 
   @Bean
-  public SecurityFilterChain authFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain tokenFilterChain(HttpSecurity http) throws Exception {
     http.securityMatcher("/auth/**")
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(HttpMethod.POST, "/auth/signup").permitAll()
